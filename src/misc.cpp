@@ -343,6 +343,8 @@ void mem_map(const char* fname, void** baseAddress, uint64_t* mapping, uint64_t*
         std::cerr << "Could not mmap() " << fname << std::endl;
         exit(1);
     }
+
+    madvise(baseAddress, statbuf.st_size, MADV_SEQUENTIAL);
 #else
     HANDLE fd = CreateFile(fname, GENERIC_READ, FILE_SHARE_READ, nullptr,
                            OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
